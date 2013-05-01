@@ -9,9 +9,10 @@ class GoogleAuth(ModelBackend):
 
     def authenticate(self, **kwargs):
         uid = kwargs.get('google_id')
-        try:
-            return GoogleProfile.objects.get(
-                google_id = uid,
-                site = Site.objects.get_current()).user
-        except GoogleProfile.DoesNotExist:
-            return None
+        if uid:
+            try:
+                return GoogleProfile.objects.get(
+                    google_id = uid,
+                    site = Site.objects.get_current()).user
+            except GoogleProfile.DoesNotExist:
+                return None
